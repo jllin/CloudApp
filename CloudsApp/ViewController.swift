@@ -28,7 +28,12 @@ class ViewController: UIViewController
             //{
             //    print("ready to print the result values...\n\(ARRAY)")
                 
-                
+            
+            
+            
+            
+            
+            
                 if let JSON = response.result.value {
                     
                     if let dectionary = JSON as? [String: Any] {
@@ -43,6 +48,7 @@ class ViewController: UIViewController
                     
                         if let headers = dectionary["headers"] as?  [String: Any]
                         {
+                            /*
                             if let value = headers["Accept-Encoding"] as? String {
                                 print("key(Accept-Encoding):\(value)\n")
                             }
@@ -69,6 +75,13 @@ class ViewController: UIViewController
                             }
                             if let value = headers["Upgrade-Insecure-Requests"] as? String {
                                 print("key(Upgrade-Insecure-Requests):\(value)\n")
+                            }
+                            */
+                            
+                            for (key, value) in headers {
+                                if let strValue = value as? String {
+                                    print("key(\(key)):\(strValue)\n")
+                                }
                             }
                         }
                     }
