@@ -1,0 +1,1 @@
+> git submodule add http://github.com/Alamofire/Alamofire.git
