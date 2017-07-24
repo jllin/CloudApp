@@ -16,6 +16,55 @@ class ViewController: UIViewController
     {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        Alamofire.request("https://api.github.com/users/octocat/repos").responseJSON { response in
+            
+            if let resultValue = response.result.value {
+                print(resultValue)
+                
+                if let array = resultValue as? [Any] {
+                    
+                    if let JSON_OBJECT = array.first {
+                        if let dictionary = JSON_OBJECT as? [String: Any] {
+                            if let value = dictionary["id"] as? Int {
+                                print("id: \(value)")
+                            }
+                            if let value = dictionary["name"] as? String {
+                                print("name: \(value)")
+                            }
+                            if let value = dictionary["private"] as? Bool {
+                                print("private: \(value)")
+                            }
+                            if let value = dictionary["homepage"] as? String {
+                                print("homepage: \(value)")
+                            }
+                            else
+                            {
+                                print("homepage: null")
+                            }
+                            
+                            
+                            for (key, value) in dictionary {
+                                if let strValue = value as? Any {
+                                    print("****key(\(key)):\(strValue)\n")
+                                }
+                                else
+                                {
+                                    print("****key(\(key)): null")
+                                }
+                            }
+                        }
+                        
+
+                        
+                    }
+                }
+                
+                
+                
+            }
+        }
+        print("==========================")
+        
         
         Alamofire.request("https://httpbin.org/get").responseJSON { response in
 
@@ -45,7 +94,7 @@ class ViewController: UIViewController
                         if let value = dectionary["url"] as? String {
                             print("key(url):\(value)\n")
                         }
-                    
+                        
                         if let headers = dectionary["headers"] as?  [String: Any]
                         {
                             /*
