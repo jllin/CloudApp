@@ -17,14 +17,41 @@ class ViewController: UIViewController
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         Alamofire.request("https://api.github.com/users/octocat/repos").responseJSON { response in
+            /*
+            guard let result_value = response.result.value
+                else {
+                    return
+            } //用 guard let 取代第一層 if ..『if let resultValue = response.result.value』
+            guard let array = result_value as? [Any]
+                else {
+                    return
+            } //用 guard let 取代第二層 if ..『if let array = result_value as? [Any] 』
+            */
             
-            if let resultValue = response.result.value {
-                print(resultValue)
-                
-                if let array = resultValue as? [Any] {
+            guard let result_value = response.result.value,
+                let array = result_value as? [Any]
+                else {
+                    return
+            } //一層以上 guard let 的合併寫法
+
+            
+            
+            //  這層拿掉用 guard let 取代  (第一層)
+            //if let resultValue = response.result.value {
+                print(result_value)
+            
+                //  這層拿掉用 guard let 取代  (第二層)
+                //if let array = result_value as? [Any] {
                     
+                    //===============
+                    // 又用 guard 取代了一層 if let ... 『dictionary = JSON_OBJECT as? [String: Any]』
                     if let JSON_OBJECT = array.first {
-                        if let dictionary = JSON_OBJECT as? [String: Any] {
+                        guard let dictionary = JSON_OBJECT as? [String: Any]
+                            else {
+                                return
+                        }
+                        // 又被 guard let 取代了一層 if let ...
+                        //if let dictionary = JSON_OBJECT as? [String: Any] {
                             if let value = dictionary["id"] as? Int {
                                 print("id: \(value)")
                             }
@@ -44,6 +71,8 @@ class ViewController: UIViewController
                             
                             
                             for (key, value) in dictionary {
+                                print("****key(\(key)):\(value)\n")
+                                /*
                                 if let strValue = value as? Any {
                                     print("****key(\(key)):\(strValue)\n")
                                 }
@@ -51,18 +80,14 @@ class ViewController: UIViewController
                                 {
                                     print("****key(\(key)): null")
                                 }
+                                 */
                             }
                         }
-                        
-
-                        
-                    }
+                    //}
                 }
-                
-                
-                
-            }
-        }
+                //===============
+            //}    //  這層拿掉用 guard let 取代 (第二層)
+        //}    //  這層拿掉用 guard let 取代 (第一層)
         print("==========================")
         
         
